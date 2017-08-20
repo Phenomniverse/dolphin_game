@@ -1,0 +1,25 @@
+﻿Happy Dolphin: Cthullu Rising! by Regan Barker 22551014.
+
+Steer the happy dolphin through the sea and try to collect 10 fish before the octopus lurking on the bottom rises up and eats you!  Don't forget, dolphins breath air!  You have to go back to the surface periodically or the dolphin will drown.
+
+Left and right arrows turn the dolphin about on its long axis, and up and down arrows direct its nose up and down.  Movements are relative to the dolphin, so if its nose is pointed to the top right of screen and you press left, it'll now be facing to bottom left. It takes a little bit of getting used to!  You can also press "a" for a burst of speed to get away from the octopus or catch a fish, but doing so uses up your oxygen more quickly.
+
+The fish move randomly but will try to avoid the dolphin when it gets close to them.  The octopus moves back and forth randomly along the sea floor but at random intervals will leap up to the surface in the hope of catching the dolphin.
+
+All audio and image files that are not created by myself are attributed within the comments of the code.
+
+I used some variables such as 'direction' to maintain orientation of the images (eg so the dolphin doesn't swim backwards), and a boolean variable 'xVector' in the octopus class to keep track of whether the octopus was moving vertically or horizontally.  These are my own innovations.  Similarly, the Fish class method avoidDolphin is something I made up to give the fish a bit of a chance and make the game a little bit challenging.  All the method calls within avoidDolphin I discovered by reading through the Greenfoot documentation with the exception of the .size method, which Alex Hendry suggested to me.  Comments in the code give more details.
+
+There was a problem with objects partially disappearing off the edges due to the images being larger than the cell which defined the objects location.  The isAtEdge method couldn't address this so I created the stayInView method which obtains the x and y coordinates of the object and if they are too close to the edge it moves the object back within view using setLocation, a method I found in the Greenfoot documentation.  I used this stayInView method in Dolphin and Octopus classes, but the fish didn't need it because the images were small enough for it not to be a problem.
+
+Having discovered that I could limit objects movements in this way, I decided to create a gap at the top of screen to represent above water.  I adjusted the stayInView method in Dolphin class to allow a 100 cell buffer at the top, and created a stayUnderWater method in the Fish class for the same purpose. 
+
+Then I decided that the Dolphin really should have to breathe periodically, to make the game more realistic and challenging.  So I created some code in the Dolphin class to define variables related to oxygen and adjust them depending on whether the dolphin is at the surface or not.  If the oxygen gets too low, some
+sounds are played, and if it runs out the dolphin drowns.
+
+The audible feedback for the player regarding oxygen level wasn't really satisfying so I decided to find a way to show it visually.  I did this by creating a new actor class, Oxygen, which appears on screen as an oxygen gauge.  It's image adjusts as the oxygen is depleted.  To get the oxygen and maxOxygen variables from the Dolphin class into the Oxygen class I created static methods within the Dolphin class which return those variables, and could be called from within the Oxygen class.
+
+After completing all of the above I revisited this project and at the suggestion of Carolyn Seton implemented some additional levels, which involved making new world classes using the Greenfoot.setLevel method. If the dolphin eats all 10 fish on the level its on, it progresses to the next level. I varied the behaviour of the octopus and fish classes to make their movements faster as the levels progressed, and on level five I increased the difficulty by adding an extra octopus.  I also added a 'Winners Circle' world class to display a victory image for players who make it through all 5 levels.  I also used the showText method to display the level number on screen.
+
+Finally, I implemented a scoring system which utilises a timer, shown on screen, which counts down to zero.  If the time runs out, the game ends.  The score for each level is equal to time remaining plus 100 for each fish eaten.  The score is shown on screen at the end of the game.
+
